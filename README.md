@@ -1,4 +1,4 @@
-**Nonparametric Bayesian Instrumental Variable Analysis: Evaluating Heterogeneous Effects of Arterial Access Sites for Opening Blocked Blood Vessels**
+**Simulation Codes for "Nonparametric Bayesian Instrumental Variable Analysis: Evaluating Heterogeneous Effects of Arterial Access Sites for Opening Blocked Blood Vessels"**
 
 **Samrachana Adhikari, Sherri Rose, Sharon-Lise Normand**
 
