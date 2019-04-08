@@ -6,7 +6,7 @@
 ##
 ##for MAC or linux OS
 #####
-library(bayesIV)
+library(BayesIV)
 library(ivpack)
 
 

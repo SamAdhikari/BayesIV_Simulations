@@ -35,8 +35,7 @@ Next, the file `SummarizeSimulations n 100.R' is organized to summarize the mode
 - finally, summarize the estimates to obtain bias, coverage and width of the credible
 interval over 50 replications.
 
-Run time: For n = 100, scales linearly with n.
-
+Run time: For n = 100, twenty thousand MCMC iterations for 1 replication will take about 3 hours in a macOS High Sierra with 2.7 GHz Intel Core i7, 16 GB processor. Users can parallelize the code for multiple replications with different sample sizes.
 
 **2. Example Dataset:**
 

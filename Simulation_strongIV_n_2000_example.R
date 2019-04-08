@@ -1,5 +1,9 @@
-library(ivpack)##USING ivpack
+#If running individually uncomment following to load the required libraries
 
+#library(BayesIV)
+#library(ivpack)
+
+##setting up MCMC parameters
 reps = 50
 niter = 20000
 burnin = 5000
@@ -9,12 +13,10 @@ Chain = seq(burnin, niter, by = thin)
 ##SETTING UP PARAMETERS FOR DATA GENERATION
 #############   #####           #########
 
+n = 2000 #sample size
 
-#confounders
+####Confounders
 #heterogeneity is based on X_3
-n = 2000
-gammaD = 1.5
-
 X = as.matrix( data.frame( rep(1, n),
         rnorm(n, 0,1),
         rnorm(n, -1, 1.5),
@@ -29,6 +31,7 @@ alpha1 = 0.1
 beta0 = c(90, -0.5, 1.5, 0)
 alpha0 = 0.1
 alphaD = 0.2
+gammaD = 1.5
 
 pdfname = paste('Gamma_Strong_simulationRep_n', n, sep = '')
 
@@ -44,14 +47,22 @@ Theta = rnorm(n, 0, 0.1)
 
 for(rr in 1:reps)
 {
+        ##specify errors on the potential outcomes
     err1 = rgamma(n, 3, 0.1)
     err0 = rgamma(n, 3, 0.1)
+    
+     ##generate potential outcomes
     Y1 = X %*% beta1 + alpha1 * Theta  + err1
     Y0 = X %*% beta0  + alpha0 * Theta + err0
+    
+     ##generate treatment assignment
     Dstar = -0.5 + X[, 3] + Z * gammaD + rnorm(n,0,1)
     D = 1 * (Dstar > 0)
+    
+        ##Observed outcome based on treatment assignment
     Yobs = D * Y1 + (1 - D) * Y0
     
+    ####MODEL   FITTING
     ## PROPOSED MODEL
     runModel_Normal_DPM = mcmcRun_Normal_DPM(Yobs = Yobs,Tr = D, X = X[, -1],
                                 Z = Z, niter = niter )

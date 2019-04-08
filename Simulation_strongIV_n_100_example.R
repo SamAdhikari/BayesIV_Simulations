@@ -1,5 +1,8 @@
+#If running individually uncomment following to load the required libraries
 
-library(ivpack)##USING ivpack
+#library(BayesIV)
+#library(ivpack)
+
 
 ##setting up MCMC parameters
 reps = 50 #repitions
