@@ -1,13 +1,12 @@
 **README for GitHub Repository "BayesIV Simulations"**
-- Samrachana Adhikari, Sherri Rose, Sharon-Lise Normand*
-https://arxiv.org/abs/1804.08055
+**-Samrachana Adhikari, Sherri Rose, Sharon-Lise Normand**
+(https://arxiv.org/abs/1804.08055)
 
-**1. What is in this repository?**
+This repository includes R  scripts to run and summarize simulations for the paper "Nonparametric Bayesian Instrumental Variable Analysis: Evaluating Heterogeneous Effects of Coronary Arterial Access Site Strategies", under strong instrument assumptions with Gamma
+distribution for the errors on outcome. 
 
-Scripts to run and summarize simulations for the paper "Nonparametric Bayesian In-
-strumental Variable Analysis: Evaluating Heterogeneous Effects of Coronary
-Arterial Access Site Strategies", under strong instrument assumptions with Gamma
-distribution for the errors on outcome. The .R scripts included in this repository can be
+**1.  Overall Structure of the Simulation Files:**
+The .R scripts included in this repository can be
 broadly divided into following three groups:
 
 1. Scripts to run the simulations with 3 different sample sizes
@@ -21,8 +20,6 @@ broadly divided into following three groups:
 - "SummarizeSimulation n 2000.R"
 
 3. Script to run the simulation and summarize for all three n's in a sequence: "runSimulations.R"
-
-**1.1.  Overall structure of the simulation files:**
 
 Structure of the .R files for different sample size is very similar and differs only in the number
 of observations n. We created different versions to automate the data generation, model fitting and summarization of the fitted models. As an example we discuss the structure
