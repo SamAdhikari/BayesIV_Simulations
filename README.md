@@ -1,19 +1,69 @@
-**Simulation Codes for "Nonparametric Bayesian Instrumental Variable Analysis: Evaluating Heterogeneous Effects of Arterial Access Sites for Opening Blocked Blood Vessels"**
-
-**Samrachana Adhikari, Sherri Rose, Sharon-Lise Normand**
-
-Percutaneous coronary interventions (PCIs) are nonsurgical procedures to open blocked blood vessels to the heart, frequently using a catheter to place a stent. The catheter can be inserted into the blood vessels using an artery in the groin or an artery in the wrist. Because clinical trials have indicated that access via the wrist may result in fewer post procedure complications, shortening the length of stay, and ultimately cost less than groin access, adoption of access via the wrist has been encouraged. However, patients treated in usual care are likely to differ from those participating in clinical trials, and there is reason to believe that the effectiveness of wrist access may differ between males and females. Moreover, the choice of artery access strategy is likely to be influenced by patient or physician unmeasured factors. To study the effectiveness of the two artery access site strategies on hospitalization charges, we use data from a state-mandated clinical registry including 7,963 patients undergoing PCI. A hierarchical Bayesian likelihood-based instrumental variable analysis under a latent index modeling framework is introduced to jointly model outcomes and treatment status. Our approach accounts for unobserved heterogeneity via a latent factor structure, and permits nonparametric error distributions with Dirichlet process mixture models. Our results demonstrate that artery access in the wrist reduces hospitalization charges compared to access in the groin, with higher mean reduction for male patients.
-
+**README for GitHub Repository "BayesIV Simulations"**
+- Samrachana Adhikari, Sherri Rose, Sharon-Lise Normand*
 https://arxiv.org/abs/1804.08055
 
-**Please refer to "Simulations_readme" for more information on the structure of this folder**
+**1. What is in this repository?**
+Scripts to run and summarize simulations for the paper "Nonparametric Bayesian In-
+strumental Variable Analysis: Evaluating Heterogeneous Effects of Coronary
+Arterial Access Site Strategies", under strong instrument assumptions with Gamma
+distribution for the errors on outcome. The .R scripts included in this repository can be
+broadly divided into following three groups:
 
-**Instruction on how to install the package from github in R:**
+1. Scripts to run the simulations with 3 different sample sizes
+- "Simulation strongIV n 100 example.R": for n = 100
+- "Simulation strongIV n 500 example.R": for n = 500
+- "Simulation strongIV n 2000 example.R": for n = 2000
+2. Scripts to summarize the outputs for each n
+- "SummarizeSimulations n 100.R"
+- "SummarizeSimulations n 500.R"
+- "SummarizeSimulation n 2000.R"
+3. Script to run the simulation and summarize for all three n's in a sequence: "runSimulations.R"
 
-install.packages('devtools')
+1.1.   Overall structure of the simulation files:
+Structure of the .R files for different sample size is very similar and differs only in the number
+of observations n. We created different versions to automate the data generation, model fitting and summarization of the fitted models. As an example we discuss the structure
+of files for simulation with n = 100. The file 'Simulation strongIV n 100 example.R' is organized to repeat the following for 50 times:
+- setup parameters to generate covariates, instrument and outcome data
+- fit three different models that we compare in the paper
+- save the generated data and the fitted models as .RData files.
 
-library(devtools)
 
-install_github('SamAdhikari/BayesIV')
+Next, the file `SummarizeSimulations n 100.R' is organized to summarize the model fits as:
+- load the simulated data and the fitted models
+- compute posterior estimates of the treatment effects
+- Finally, summarize the estimates to obtain bias, coverage and width of the credible
+interval over 50 replications.
 
+Run time: For n = 100, scales linearly with n.
 
+**2. Example Dataset:**
+Example dataset is included in the R package 'BayesIV'. The following command in R
+console after loading the package displays the content of the example data:
+*Data(package='BayesIV')*
+
+The example data has following objects:
+- Y obs = a vector of theobserved outcome
+- D = a vector of the treatment assignment
+- X = a matrix of confounders
+- Z = a vector of the instrumental variable
+
+The proposed model can be fitted in this dataset with following steps:
+1. install the package in R from GitHub repository.
+- *install.packages('devtools')*
+- *library(devtools)*
+- *install github('SamAdhikari/BayesIV')*
+- *library(BayesIV)*
+
+2. fit the NP-Bayes IV model with default initialization and priors to draw 100 posterior
+samples. Refer to BayesIV-manual for more detail.
+
+*Model = mcmcRun Normal DPM(Yobs = Yobs, Tr = D, X = X, Z = Z, niter = 100,
+priors = NULL, initialVals = NULL)*
+
+3. summarize the fitted model by specifying burnin and thinning values for the MCMC
+chain.
+
+*ATE chain = getATE posterior NDPM(fittedModel = Model, X = X, niter = 100,
+burnin = 0, thin = 1)*
+
+*ATE = mean(ATE chain)*
